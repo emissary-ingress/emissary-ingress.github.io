@@ -2,12 +2,12 @@ import Alert from '@material-ui/lab/Alert';
 
 # Basic rate limiting
 
-Rate limiting in $productName$ is composed of two parts:
+Rate limiting in Emissary is composed of two parts:
 
-* The [`RateLimitService`](../../running/services/rate-limit-service) resource tells $productName$ what external service
+* The [`RateLimitService`](../../running/services/rate-limit-service) resource tells Emissary what external service
   to use for rate limiting.
 
-    <Alert severity="info">If $productName$ cannot contact the rate limit service, it will allow the request to be processed as if there were no rate limit service configuration.</Alert>
+    <Alert severity="info">If Emissary cannot contact the rate limit service, it will allow the request to be processed as if there were no rate limit service configuration.</Alert>
 
 * _Labels_ that get attached to requests. A label is basic metadata that
   is used by the `RateLimitService` to decide which limits to apply to
@@ -34,7 +34,7 @@ labels:
   - ...
 ```
 
-The names of domains and groups are not interpreted by $productName$ in any way:
+The names of domains and groups are not interpreted by Emissary in any way:
 they are solely there to help configuration authors remember the different groupings.
 Note that **at present, rate limiting supports just one domain**: the name of the
 domain must be configured in the [`RateLimitService`](../../running/services/rate-limit-service).
@@ -71,7 +71,7 @@ There are two ways of setting labels on a request:
    ```
 
 2. You can set global labels in the [`ambassador` `Module`](../../running/ambassador).
-   These labels will apply to _every_ request that goes through $productName$.
+   These labels will apply to _every_ request that goes through Emissary.
 
    ```yaml
    ---
@@ -103,9 +103,9 @@ group is a list rather than a map:
 - the order of labels matters.
 
 > Note: The terminology used by the Envoy documentation differs from
-> the terminology used by $productName$:
+> the terminology used by Emissary:
 >
-> | $productName$   | Envoy             |
+> | Emissary   | Envoy             |
 > |-----------------|-------------------|
 > | label group     | descriptor        |
 > | label           | descriptor entry  |
@@ -113,14 +113,14 @@ group is a list rather than a map:
 
 The `Mapping`s' listing of the groups of specifiers have names for the
 groups; the group names are useful for humans dealing with the YAML,
-but are ignored by $productName$, all $productName$ cares about are the
+but are ignored by Emissary, all Emissary cares about are the
 *contents* of the groupings of label specifiers.
 
-There are 5 types of label specifiers in $productName$:
+There are 5 types of label specifiers in Emissary:
 
 <!-- This table is ordered the same way as the protobuf fields in
   `route_components.proto`.  There's also a 6th action:
-  "header_value_match" (since Envoy 1.2), but $productName$ doesn't
+  "header_value_match" (since Envoy 1.2), but Emissary doesn't
   support it?  -->
 
 1. `source_cluster`
@@ -159,7 +159,7 @@ There are 5 types of label specifiers in $productName$:
 
     Sets the label `remote_address=«IP address of the client»"`. The IP address of
     the client will be taken from the `X-Forwarded-For` header, to correctly manage
-    situations with L7 proxies. This requires that $productName$ be correctly
+    situations with L7 proxies. This requires that Emissary be correctly
     [configured to communicate](../../../howtos/configure-communications).
 
     The syntax of this label currently _requires_ `remote_address: {}`.
@@ -190,10 +190,10 @@ There are 5 types of label specifiers in $productName$:
 
 This is determined by your `RateLimitService` implementation. See the
 [Basic Rate Limiting tutorial](../../../howtos/rate-limiting-tutorial) for an
-example `RateLimitService` implementation for $productName$.
+example `RateLimitService` implementation for Emissary.
 
 If you'd rather not write your own `RateLimitService` implementation,
-$AESproductName$ provides a `RateLimitService` implementation that is
+Ambassador Edge Stack provides a `RateLimitService` implementation that is
 configured by a `RateLimit` custom resource. See the
-[$AESproductName$ RateLimit Reference](/docs/edge-stack/latest/topics/using/rate-limits/rate-limits/)
+[Ambassador Edge Stack RateLimit Reference](/docs/edge-stack/latest/topics/using/rate-limits/rate-limits/)
 for more information.

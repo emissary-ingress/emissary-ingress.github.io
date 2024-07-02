@@ -1,13 +1,13 @@
 # Statistics and monitoring
 
-$productName$ collects many statistics internally, and makes it easy to
+Emissary collects many statistics internally, and makes it easy to
 direct this information to a statistics and monitoring tool of your
 choice.
 
 As an example, here are some interesting statistics to investigate:
 
 - `upstream_rq_total` is the total
-  number of requests that a particular service has received via $productName$.  The rate of change of this value is one basic measure of
+  number of requests that a particular service has received via Emissary.  The rate of change of this value is one basic measure of
   service utilization, i.e. requests per second.
 - `upstream_rq_xx` is the total number
   of requests to which a service responded with a given status code.
@@ -16,7 +16,7 @@ As an example, here are some interesting statistics to investigate:
   service.  There are corresponding classes for `2xx`, `3xx`, `4xx` and `5xx` counters that can
   help clarify the nature of responses.
 - `upstream_rq_time` is a Prometheus histogram or StatsD timer
-  that tracks the latency in milliseconds of a given service from $productName$'s perspective.
+  that tracks the latency in milliseconds of a given service from Emissary's perspective.
 
 ## Overriding Statistics Names
 
@@ -30,7 +30,7 @@ underscores:
 - `service: http://foo:8080` will use `http___foo_8080`
 - `service: foo.othernamespace` will use `foo_othernamespace`
 
-The last example is worth special mention: a resource in a different namespace than the one in which $productName$ is running will automatically be qualified with the namespace of the resource itself. So, for example, if $productName$ is running in the `ambassador` namespace, and this `Mapping` is present in the `default` namespace:
+The last example is worth special mention: a resource in a different namespace than the one in which Emissary is running will automatically be qualified with the namespace of the resource itself. So, for example, if Emissary is running in the `ambassador` namespace, and this `Mapping` is present in the `default` namespace:
 
 ```yaml
 apiVersion: getambassador.io/v3alpha1
@@ -47,13 +47,13 @@ then the `service` will be qualified to `default-service.default`, so the `stats
 
 ## Monitoring Statistics
 
-There are several ways to get different statistics out of $productName$:
+There are several ways to get different statistics out of Emissary:
 
 - [The `:8877/metrics` endpoint](./8877-metrics) can be polled for
   aggregated statistics (in a Prometheus-compatible format).  This is
-  our recommended method as both Envoy metrics and $productName$ control plane
+  our recommended method as both Envoy metrics and Emissary control plane
   metrics are collected.
-- $productName$ can push [Envoy statistics](./envoy-statsd) over the
+- Emissary can push [Envoy statistics](./envoy-statsd) over the
   StatsD or DogStatsD protocol.
 
 ## The Four Golden Signals

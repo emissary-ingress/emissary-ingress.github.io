@@ -2,18 +2,18 @@ import Alert from '@material-ui/lab/Alert';
 
 # Transport Layer Security (TLS)
 
-$productName$'s robust TLS support exposes configuration options
+Emissary's robust TLS support exposes configuration options
 for many different TLS use cases, using the [`Host`](#host) and
 [`TLSContext`](#host-and-tlscontext) resources in concert.
 
 ## Certificates and Secrets
 
 Properly-functioning TLS requires the use of [TLS certificates] to prove that the
-various systems communicating are who they say they are. At minimum, $productName$
+various systems communicating are who they say they are. At minimum, Emissary
 must have a server certificate that identifies it to clients; when [mTLS] or
 [client certificate authentication] are in use, additional certificates are needed.
 
-You supply certificates to $productName$ in Kubernetes [TLS Secrets]. These Secrets
+You supply certificates to Emissary in Kubernetes [TLS Secrets]. These Secrets
 _must_ contain valid X.509 certificates with valid PKCS1, PKCS8, or Elliptic Curve private
 keys. If a Secret does not contain a valid certificate, an error message will be logged, for
 example:
@@ -24,7 +24,7 @@ tls-broken-cert.default.1 2 errors:;  1. K8sSecret secret tls-broken-cert.defaul
 
 If you set the `AMBASSADOR_FORCE_SECRET_VALIDATION` environment variable, the invalid
 Secret will be rejected, and a `Host` or `TLSContext` resource attempting to use an invalid
-certificate will be disabled entirely. **Note** that in $productName$ $version$, this
+certificate will be disabled entirely. **Note** that in Emissary $version$, this
 includes disabling cleartext communication for such a `Host`.
 
 [TLS Certificates]: https://protonmail.com/blog/tls-ssl-certificate/
@@ -34,15 +34,15 @@ includes disabling cleartext communication for such a `Host`.
 
 ## `Host`
 
-A `Host` represents a domain in $productName$ and defines how the domain manages TLS. For more information on the Host resource, see [The Host CRD reference documentation](../host-crd).
+A `Host` represents a domain in Emissary and defines how the domain manages TLS. For more information on the Host resource, see [The Host CRD reference documentation](../host-crd).
 
-**If no `Host`s are present**, $productName$ synthesizes a `Host` that
+**If no `Host`s are present**, Emissary synthesizes a `Host` that
 allows only cleartext routing. You will need to explictly define `Host`s to enable
 TLS termination.
 
 <Alert severity="info">
   The examples below do not define a <code>requestPolicy</code>; however, most real-world
-  usage of $productName$ will require defining the <code>requestPolicy</code>.<br/>
+  usage of Emissary will require defining the <code>requestPolicy</code>.<br/>
   <br/>
   For more information, please refer to the <a href="../host-crd#secure-and-insecure-requests"><code>Host</code> documentation.</a>
 </Alert>
@@ -53,7 +53,7 @@ The `Host` can read a certificate from a Kubernetes Secret and use that certific
 to terminate TLS on a domain.
 
 The following example shows the certificate contained in the Kubernetes Secret named
-`host-secret` configured to have $productName$ terminate TLS on the `host.example.com`
+`host-secret` configured to have Emissary terminate TLS on the `host.example.com`
 domain:
 
 ```yaml
@@ -94,7 +94,7 @@ spec:
 
   The Kubernetes Secret named by <code>tlsSecret</code> must contain a valid TLS certificate.
   If `AMBASSADOR_FORCE_SECRET_VALIDATION` is set and the Secret contains an invalid
-  certificate, $productName$ will reject the Secret and completely disable the
+  certificate, Emissary will reject the Secret and completely disable the
   `Host`; see [**Certificates and Secrets**](#certificates-and-secrets) above.
 
 </Alert>
@@ -124,7 +124,7 @@ spec:
 
   The Kubernetes Secret named by <code>tlsSecret</code> must contain a valid TLS certificate.
   If `AMBASSADOR_FORCE_SECRET_VALIDATION` is set and the Secret contains an invalid
-  certificate, $productName$ will reject the Secret and completely disable the
+  certificate, Emissary will reject the Secret and completely disable the
   `Host`; see [**Certificates and Secrets**](#certificates-and-secrets) above.
 
 </Alert>
@@ -200,7 +200,7 @@ spec:
 <Alert severity="warning">
 
   The `Host` and the `TLSContext` must name the same Kubernetes Secret; if not,
-  $productName$ will disable TLS for the `Host`.
+  Emissary will disable TLS for the `Host`.
 
 </Alert>
 
@@ -208,7 +208,7 @@ spec:
 
   The Kubernetes Secret named by <code>tlsSecret</code> must contain a valid TLS certificate.
   If `AMBASSADOR_FORCE_SECRET_VALIDATION` is set and the Secret contains an invalid
-  certificate, $productName$ will reject the Secret and completely disable the
+  certificate, Emissary will reject the Secret and completely disable the
   `Host`; see [**Certificates and Secrets**](#certificates-and-secrets) above.
 
 </Alert>
@@ -226,7 +226,7 @@ See [`TLSContext`](#tlscontext) below to read more on the description of these f
 
 <Alert severity="warning">
   This implicit <code>TLSContext</code> linkage is deprecated and will be removed
-  in a future version of $productName$; it is <b>not</b> recommended for new
+  in a future version of Emissary; it is <b>not</b> recommended for new
   configurations. Any other TLS configuration in the <code>Host</code> will override
   this implict <code>TLSContext</code> link.
 </Alert>
@@ -258,7 +258,7 @@ spec:
 <Alert severity="warning">
 
   The `Host` and the `TLSContext` must name the same Kubernetes Secret; if not,
-  $productName$ will disable TLS for the `Host`.
+  Emissary will disable TLS for the `Host`.
 
 </Alert>
 
@@ -266,7 +266,7 @@ spec:
 
   The Kubernetes Secret named by <code>tlsSecret</code> must contain a valid TLS certificate.
   If `AMBASSADOR_FORCE_SECRET_VALIDATION` is set and the Secret contains an invalid
-  certificate, $productName$ will reject the Secret and completely disable the
+  certificate, Emissary will reject the Secret and completely disable the
   `Host`; see [**Certificates and Secrets**](#certificates-and-secrets) above.
 
 </Alert>
@@ -282,7 +282,7 @@ Full reference for all options available to the `TLSContext` can be found [below
 
 ## TLSContext
 
-The `TLSContext` is used to configure advanced TLS options in $productName$.
+The `TLSContext` is used to configure advanced TLS options in Emissary.
 Remember, a `TLSContext` must always be paired with a `Host`.
 
 A full schema of the `TLSContext` can be found below with descriptions of the
@@ -308,7 +308,7 @@ spec:
   # sni: None
 
   # 'secret' defines a Kubernetes Secret that contains the TLS certificate we
-  # use for origination or termination. If not specified, $productName$ will look
+  # use for origination or termination. If not specified, Emissary will look
   # at the value of cert_chain_file and private_key_file.
   # type: string
   #
@@ -320,7 +320,7 @@ spec:
   #
   # ca_secret: None
 
-  # Tells $productName$ whether to interpret a "." in the secret name as a "." or
+  # Tells Emissary whether to interpret a "." in the secret name as a "." or
   # a namespace identifier.
   # type: boolean
   #
@@ -347,7 +347,7 @@ spec:
   # v1.2, or v1.3. It defaults to v1.3.
   # max_tls_version: v1.3
 
-  # Tells $productName$ to load TLS certificates from a file in its container.
+  # Tells Emissary to load TLS certificates from a file in its container.
   # type: string
   #
   # cert_chain_file: None
@@ -359,7 +359,7 @@ spec:
 
   `secret` and (if used) `ca_secret` must specify Kubernetes Secrets containing valid TLS
   certificates. If `AMBASSADOR_FORCE_SECRET_VALIDATION` is set and either Secret contains
-  an invalid certificate, $productName$ will reject the Secret, which will also completely
+  an invalid certificate, Emissary will reject the Secret, which will also completely
   disable any `Host` using the `TLSContext`; see [**Certificates and Secrets**](#certificates-and-secrets)
   above.
 
@@ -393,12 +393,12 @@ If you leave off http/1.1, only HTTP2 connections will be supported.
 ### TLS parameters
 
 The `min_tls_version` setting configures the minimum TLS protocol version that
-$productName$ will use to establish a secure connection. When a client
+Emissary will use to establish a secure connection. When a client
 using a lower version attempts to connect to the server, the handshake will
 result in the following error: `tls: protocol version not supported`.
 
 The `max_tls_version` setting configures the maximum TLS protocol version that
-$productName$ will use to establish a secure connection. When a client
+Emissary will use to establish a secure connection. When a client
 using a higher version attempts to connect to the server, the handshake will
 result in the following error:
 `tls: server selected unsupported protocol version`.
@@ -456,7 +456,7 @@ spec:
 
 
 The `crl_secret` field allows you to reference a Kubernetes Secret that contains a certificate revocation list.
-If specified, $productName$ will verify that the presented peer certificate has not been revoked by this CRL even if they are otherwise valid. This provides a way to reject certificates before they expire or if they become compromised.
+If specified, Emissary will verify that the presented peer certificate has not been revoked by this CRL even if they are otherwise valid. This provides a way to reject certificates before they expire or if they become compromised.
 The `crl_secret` field takes a PEM-formatted [Certificate Revocation List](https://en.wikipedia.org/wiki/Certificate_revocation_list) in a `crl.pem` entry.
 
 Note that if a CRL is provided for any certificate authority in a trust chain, a CRL must be provided for all certificate authorities in that chain. Failure to do so will result in verification failure for both revoked and unrevoked certificates from that chain.

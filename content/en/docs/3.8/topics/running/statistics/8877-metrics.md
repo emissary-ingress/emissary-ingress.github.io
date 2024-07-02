@@ -1,9 +1,9 @@
 # The metrics endpoint
 
 > For an overview of other options for gathering statistics on
-> $productName$, see the [Statistics and Monitoring](../) overview.
+> Emissary, see the [Statistics and Monitoring](../) overview.
 
-Each $productName$ pod exposes statistics and metrics for that pod at
+Each Emissary pod exposes statistics and metrics for that pod at
 `http://{POD}:8877/metrics`.  The response is in the text-based
 Prometheus [exposition format][].
 
@@ -26,7 +26,7 @@ make the file self-documenting as to what specific statistics mean.
 
 - `envoy_*`: See the [Envoy documentation][`GET /stats/prometheus`].
 - `ambassador_*`:
-  - `ambassador_edge_stack_*` (not present in $OSSproductName$):
+  - `ambassador_edge_stack_*` (not present in Emissary):
     - `ambassador_edge_stack_go_*`: See [`promethus.NewGoCollector()`][].
     - `ambassador_edge_stack_promhttp_*` See [`promhttp.Handler()`][].
     - `ambassador_edge_stack_process_*`: See [`promethus.NewProcessCollector()`][]..
@@ -37,7 +37,7 @@ make the file self-documenting as to what specific statistics mean.
     diagnostics errors and notices that would be shown in the
     diagnostics UI or the Edge Policy Console.
   - `ambassador_diagnostics_info`: [Info][`prometheus_client.Info`]
-    about the $productName$ install; all information is presented in
+    about the Emissary install; all information is presented in
     labels; the value of the Gauge is always "1".
   - `ambassador_process_*`: See [`prometheus_client.ProcessCollector`][].
 
